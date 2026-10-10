@@ -1,5 +1,5 @@
 """
-IDShield Pro — Identity Document Forensic & Person Verification Backend
+VeriShieldAI — Identity Document Forensic & Person Verification Backend
 Exposes REST APIs for document screening, person data extraction (OCR), and fraud detection.
 
 Classification:
@@ -549,7 +549,7 @@ def api_health():
             sum(a.get("processing_time_ms", 50) for a in ANALYSES) / max(len(ANALYSES), 1), 1
         ),
         "total_screenings": len(ANALYSES),
-        "engine_version": "IDShield-Pro-v3.2",
+        "engine_version": "VeriShieldAI-v3.2",
         "modules": {
             "classifier": "active",
             "ocr_extractor": "active",
@@ -959,8 +959,8 @@ def serve_spa(path: str):
             return send_from_directory(dist_dir, "index.html")
     return jsonify({
         "status": "healthy",
-        "service": "IDShield Pro API Server",
-        "version": "IDShield-Pro-v3.2",
+        "service": "VeriShieldAI API Server",
+        "version": "VeriShieldAI-v3.2",
         "endpoints": {
             "health": "/api/system/health",
             "dashboard_stats": "/api/system/dashboard/stats",
@@ -1003,7 +1003,7 @@ def _lite(a: dict) -> dict:
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     print("=" * 60)
-    print("  IDShield Pro API Server")
+    print("  VeriShieldAI API Server")
     print("  Classification: Pass / Suspicious / Failed")
     print(f"  Backend: http://127.0.0.1:{port}")
     print("  React UI: http://127.0.0.1:3000")

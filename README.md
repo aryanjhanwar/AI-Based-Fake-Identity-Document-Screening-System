@@ -1,4 +1,4 @@
-# IDShield Pro — AI-Powered Identity Document Screening System
+# VeriShieldAI — AI-Powered Identity Document Screening System
 
 An advanced, end-to-end identity screening and anti-fraud platform. Built with a modern **React + TypeScript + Vite** frontend and a high-performance **Python Flask + PyTorch + PaddleOCR** backend.
 
@@ -63,7 +63,7 @@ The frontend is a static Single Page Application (SPA) built with Vite and React
    - **Build command**: `npm run build`
    - **Publish directory**: `dist`
 5. **Set Environment Variable** (under *Site configuration* $\rightarrow$ *Environment variables*):
-   - `VITE_API_URL`: Your deployed Render backend URL (e.g. `https://idshield-backend.onrender.com`).
+   - `VITE_API_URL`: Your deployed Render backend URL (e.g. `https://verishieldai-backend.onrender.com`).
 6. Click **Deploy Site**.
    - Netlify will build the frontend and serve it globally on a custom `.netlify.app` domain.
    - SPA route reloads (`/upload`, `/results`, `/results/:id`) work automatically via [`public/_redirects`](file:///d:/Projects/sih-identity-screening-main/frontend/public/_redirects).

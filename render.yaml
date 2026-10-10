@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: idshield-backend
+    name: verishieldai-backend
     env: python
     rootDir: backend
     region: oregon

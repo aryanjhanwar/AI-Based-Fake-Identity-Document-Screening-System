@@ -1,4 +1,4 @@
-# 🛡️ IDShield Pro — Beginner-Friendly Project Flow & Techniques Guide
+# 🛡️ VeriShieldAI — Beginner-Friendly Project Flow & Techniques Guide
 
 > **Welcome!** If you are new to AI, Computer Vision, or Full-Stack web development, this guide explains **exactly how this project works**, from the moment a user uploads a document to the final fraud detection verdict. No complicated academic jargon — everything is explained using simple language, real-world analogies, and step-by-step diagrams.
 
@@ -37,7 +37,7 @@ Some of these documents might be fake:
 - Someone replaced the cardholder's photo with their own face using an online face-swap tool.
 - Someone printed a counterfeit card on home inkjet paper.
 
-**IDShield Pro is an AI-powered automated detective.** It examines an uploaded image under multiple digital magnifying glasses, checks the ink, inspects the invisible digital file traces, reads the cardholder details, and calculates an exact **Real vs. Fake Probability (%)**.
+**VeriShieldAI is an AI-powered automated detective.** It examines an uploaded image under multiple digital magnifying glasses, checks the ink, inspects the invisible digital file traces, reads the cardholder details, and calculates an exact **Real vs. Fake Probability (%)**.
 
 ---
 
@@ -304,7 +304,7 @@ Combined Risk Score:
 
 ## 🎯 Summary
 
-Whenever someone uploads an ID card to **IDShield Pro**:
+Whenever someone uploads an ID card to **VeriShieldAI**:
 1. The **React Frontend** sends the file to the **Flask Backend**.
 2. The Backend runs **6 detectors** simultaneously:
    - *Textures & Colors* (HOG + HSV + Random Forest)

@@ -1,4 +1,4 @@
-# IDShield Pro — Backend API Service
+# VeriShieldAI — Backend API Service
 
 High-performance Python Flask + PyTorch + PaddleOCR forensic screening backend for Indian identity documents (**Aadhaar, PAN, Passport, Voter ID, Driving License**).
 
@@ -89,8 +89,8 @@ python test_api.py
 ### Option 2: Deploy using Docker
 ```bash
 # From within the backend/ folder:
-docker build -t idshield-backend .
-docker run -p 5000:5000 -e PORT=5000 idshield-backend
+docker build -t verishieldai-backend .
+docker run -p 5000:5000 -e PORT=5000 verishieldai-backend
 ```
 
 ---

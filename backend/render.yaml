@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: idshield-backend
+    name: verishieldai-backend
     env: python
     region: oregon
     plan: standard

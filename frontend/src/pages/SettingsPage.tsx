@@ -52,7 +52,7 @@ export function SettingsPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-xl border bg-card/80">
           <div>
             <p className="text-xs text-muted-foreground">Engine Version</p>
-            <p className="text-sm font-bold text-primary">{health.engine_version || 'IDShield Pro v3.0'}</p>
+            <p className="text-sm font-bold text-primary">{health.engine_version || 'VeriShieldAI v3.0'}</p>
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Status</p>

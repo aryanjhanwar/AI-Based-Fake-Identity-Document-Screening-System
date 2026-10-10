@@ -1,6 +1,6 @@
-# IDShield Pro — Complete System Architecture & Forensic Audit Specification
+# VeriShieldAI — Complete System Architecture & Forensic Audit Specification
 
-> **System Name:** IDShield Pro (AI-Based Fake Identity Document Screening System)  
+> **System Name:** VeriShieldAI (AI-Based Fake Identity Document Screening System)  
 > **Repository:** `sih-identity-screening-main`  
 > **Domain:** Automated Identity Document Verification, Forensic Tampering Detection, Optical Character Recognition (OCR), and Anti-Fraud Screening.  
 > **Target Document Standards:** Government of India Identity Documents (**Aadhaar**, **PAN**, **Indian Passport**, **Voter ID / EPIC**, **Driving License**).
@@ -54,8 +54,8 @@ Identity fraud is a rapidly escalating threat across banking, KYC onboarding, bo
 - **Counterfeit Template Generation:** Generating completely synthetic ID cards using desktop publishing software.
 - **Hologram & Seal Forgery:** Cloning official government seals (e.g., UIDAI Ashoka Emblem, Income Tax Department logo, Passport stamp).
 
-### 1.2 The IDShield Pro Solution
-**IDShield Pro** is an automated, multi-tiered document screening engine that combines:
+### 1.2 The VeriShieldAI Solution
+**VeriShieldAI** is an automated, multi-tiered document screening engine that combines:
 1. **Computer Vision & Statistical Signal Forensics:** Error Level Analysis (ELA), edge discontinuity, color gamut verification, and stamp circularity.
 2. **Pretrained & Custom Deep Learning:** EfficientNet-B0 CNN, HOG (Histogram of Oriented Gradients), and HSV color histogram classification.
 3. **Advanced OCR & Entity Recognition:** Full-resolution PaddleOCR PP-OCRv6 coupled with custom heuristic regex parsers for Aadhaar, PAN, Passport, DL, and Voter IDs.
@@ -228,7 +228,7 @@ export const api = axios.create({
 export const API_URL = API_BASE;
 ```
 - **Local Development:** `VITE_API_URL` is empty; Vite proxies `/api/*` directly to `http://127.0.0.1:5000` via `vite.config.ts`.
-- **Production (Netlify + Render):** Set `VITE_API_URL = "https://idshield-backend.onrender.com"` in Netlify Site Configuration.
+- **Production (Netlify + Render):** Set `VITE_API_URL = "https://verishieldai-backend.onrender.com"` in Netlify Site Configuration.
 
 ---
 
@@ -547,7 +547,7 @@ Through an exhaustive audit of all modules, source files, and dependencies, the 
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────┐
-│                                IDSHIELD PRO SYSTEM                               │
+│                                VERISHIELDAI SYSTEM                               │
 ├───────────────────────┬──────────────────────────┬───────────────────────────────┤
 │ Frontend SPA          │ Core Forensic Modules    │ Machine Learning & Storage    │
 ├───────────────────────┼──────────────────────────┼───────────────────────────────┤

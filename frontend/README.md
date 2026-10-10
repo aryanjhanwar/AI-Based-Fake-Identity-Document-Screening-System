@@ -1,4 +1,4 @@
-# IDShield Pro — Frontend Application
+# VeriShieldAI — Frontend Application
 
 Modern Single Page Application (SPA) built with **React 19 + TypeScript + Vite + Tailwind CSS** for the AI-Based Identity Document Screening System.
 
@@ -54,7 +54,7 @@ By default, Vite proxies `/api/*` requests to `http://127.0.0.1:5000` (the Flask
    - **Build command:** `npm run build`
    - **Publish directory:** `dist`
 4. Set Environment Variable:
-   - `VITE_API_URL`: Your deployed backend URL (e.g. `https://idshield-backend.onrender.com`).
+   - `VITE_API_URL`: Your deployed backend URL (e.g. `https://verishieldai-backend.onrender.com`).
 5. Click **Deploy Site**.
 
 ### Option 2: Deploy to Vercel
