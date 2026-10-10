@@ -1,0 +1,33 @@
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Python runtime artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+.agent-progress.md
+
+# Node / Frontend
+frontend/node_modules/
+frontend/dist/
+node_modules/
+dist/
+.DS_Store
+
+# Uploaded documents cache
+uploads/*
+!uploads/.gitkeep
+
+# Environment & secrets
+.env
+.env.local
+*.env
+keys.env
+
+# Model caches
+.huggingface/
+.paddlex/

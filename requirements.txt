@@ -1,0 +1,22 @@
+# core ML & Computer Vision
+numpy>=1.24.0
+pillow>=9.5.0
+opencv-python-headless>=4.7.0
+scikit-learn>=1.2.0
+joblib>=1.2.0
+
+# Deep Learning & OCR
+torch>=2.0.0
+torchvision
+transformers>=4.40.0
+paddleocr>=3.0.0
+paddlepaddle>=3.0.0
+
+# Forensics & Metadata
+exifread>=3.0.0
+
+# Backend Web Server (Production WSGI)
+flask>=2.3.0
+flask-cors>=4.0.0
+requests>=2.28.0
+gunicorn>=21.2.0

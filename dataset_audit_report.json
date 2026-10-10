@@ -1,0 +1,43 @@
+{
+    "total_images": 5018,
+    "class_counts": {
+        "Genuine": 3809,
+        "Forged": 1209,
+        "Unknown": 0
+    },
+    "category_counts": {
+        "Aadhaar": 2814,
+        "PAN": 1489,
+        "Passport": 215,
+        "Unknown": 500
+    },
+    "source_counts": {
+        "Dataset_Main": 4487,
+        "Data_Morphed": 500,
+        "Data_Labeled": 31
+    },
+    "formats": {
+        "JPEG": 4992,
+        "PNG": 10,
+        "WEBP": 16
+    },
+    "color_modes": {
+        "RGB": 5016,
+        "RGBA": 2
+    },
+    "corrupt_images": 0,
+    "corrupt_files_list": [],
+    "exact_duplicates": 681,
+    "top_10_resolutions": {
+        "640x640": 2118,
+        "300x300": 1000,
+        "2339x1653": 363,
+        "1653x2339": 203,
+        "1000x750": 32,
+        "1000x563": 22,
+        "1700x2200": 20,
+        "780x1040": 12,
+        "720x960": 10,
+        "2481x3507": 10
+    }
+}

@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: idshield-backend
+    env: python
+    region: oregon
+    plan: standard
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 180
+    healthCheckPath: /api/system/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: FLAGS_enable_pir_api
+        value: "0"
