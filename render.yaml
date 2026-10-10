@@ -5,11 +5,23 @@ services:
     rootDir: backend
     region: oregon
     plan: standard
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 180
+    buildCommand: pip install -r requirements.txt && python -c "import os; os.environ['FLAGS_allocator_strategy']='naive'; from paddleocr import PaddleOCR; from config import OCR_KWARGS; PaddleOCR(**OCR_KWARGS)"
+    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 180
     healthCheckPath: /api/system/health
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: FLAGS_enable_pir_api
         value: "0"
+      - key: FLAGS_allocator_strategy
+        value: naive
+      - key: FLAGS_fraction_of_cpu_memory_to_use
+        value: "0.15"
+      - key: CPU_NUM
+        value: "1"
+      - key: OMP_NUM_THREADS
+        value: "1"
+      - key: MKL_NUM_THREADS
+        value: "1"
+      - key: OPENBLAS_NUM_THREADS
+        value: "1"

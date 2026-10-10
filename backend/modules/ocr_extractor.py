@@ -44,6 +44,11 @@ def _get_ocr():
             return _ocr_instance
         import os
         os.environ.setdefault("FLAGS_enable_pir_api", "0")
+        os.environ.setdefault("FLAGS_allocator_strategy", "naive")
+        os.environ.setdefault("FLAGS_fraction_of_cpu_memory_to_use", "0.15")
+        os.environ.setdefault("CPU_NUM", "1")
+        os.environ.setdefault("OMP_NUM_THREADS", "1")
+        os.environ.setdefault("MKL_NUM_THREADS", "1")
         try:
             import paddle
             paddle.set_flags({"FLAGS_enable_pir_api": 0})
@@ -132,8 +137,14 @@ def extract(img: Image.Image) -> dict:
         img.thumbnail((max_dim, max_dim), Image.BILINEAR)
 
     # PaddleOCR 3.x accepts NumPy arrays or file paths, not PIL images.
-    result = _get_ocr().predict(np.asarray(img))
-    lines  = _parse_lines(result)
+    lines = []
+    try:
+        ocr_engine = _get_ocr()
+        result = ocr_engine.predict(np.asarray(img))
+        lines = _parse_lines(result)
+    except Exception as exc:
+        print(f"[OCR extraction notice] PaddleOCR inference error or timeout: {exc}")
+        lines = []
     full_text = " ".join(l["text"] for l in lines)
     full_upper = full_text.upper().replace(" ", "")
     full_lower = full_text.lower()

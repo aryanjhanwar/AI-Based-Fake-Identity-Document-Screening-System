@@ -31,6 +31,12 @@ import re
 from datetime import datetime
 
 os.environ.setdefault("FLAGS_enable_pir_api", "0")
+os.environ.setdefault("FLAGS_allocator_strategy", "naive")
+os.environ.setdefault("FLAGS_fraction_of_cpu_memory_to_use", "0.15")
+os.environ.setdefault("CPU_NUM", "1")
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 
 from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
@@ -54,6 +60,18 @@ if not os.path.exists(frontend_dist):
     frontend_dist = os.path.join(BASE_DIR, "frontend", "dist")
 app = Flask(__name__, static_folder=frontend_dist if os.path.exists(frontend_dist) else None, static_url_path="/")
 CORS(app, resources={r"/*": {"origins": "*"}}, allow_headers=["*"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+
+import threading
+
+def _warmup_background():
+    try:
+        from modules.ocr_extractor import _get_ocr
+        _get_ocr()
+        print("[VeriShieldAI] OCR engine initialized in background thread.")
+    except Exception as e:
+        print(f"[VeriShieldAI] Background OCR warmup notice: {e}")
+
+threading.Thread(target=_warmup_background, daemon=True).start()
 
 # ── In-memory analysis store ─────────────────────────────────────────────────
 # Pre-seeded with realistic records reflecting Pass, Failed, and Suspicious outcomes

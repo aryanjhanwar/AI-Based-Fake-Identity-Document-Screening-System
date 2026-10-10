@@ -121,17 +121,18 @@ export function UploadPage() {
       // Navigate to the result page immediately
       navigate(`/results/${response.data.id}`);
     } catch (err: any) {
-      console.error(err);
       const targetDesc = API_BASE.startsWith('http') ? API_BASE : 'the backend';
       let msg = `Upload failed. Could not reach ${targetDesc}.`;
-      if (err.response?.data?.detail) {
+      if (err.response?.status === 502 || err.response?.status === 504) {
+        msg = `Backend server temporarily busy or restarting on Render (HTTP ${err.response.status}). If Render was asleep, please retry in 15 seconds.`;
+      } else if (err.response?.data?.detail) {
         msg = err.response.data.detail;
       } else if (err.response?.data?.error) {
         msg = err.response.data.error;
       } else if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
-        msg = 'Analysis request timed out. If Render is waking up from sleep, wait 30 seconds and try again.';
+        msg = 'Analysis request timed out. If Render is waking up from sleep mode (~45s), wait 20 seconds and try again.';
       } else if (err.message?.toLowerCase().includes('network error')) {
-        msg = `Network Error: Could not connect to backend (${targetDesc}). If on Render free tier, the service may be waking up from sleep (~45s), or VITE_API_URL is missing in Netlify.`;
+        msg = `Could not connect to backend (${targetDesc}). If on Render free tier, the service is likely waking up from sleep (~45s) or restarting. Please try again shortly.`;
       } else if (err.message) {
         msg = `${err.message} (${targetDesc})`;
       }

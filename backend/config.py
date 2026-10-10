@@ -17,11 +17,17 @@ os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(TRAIL_DIR, exist_ok=True)
 
 # ---------------------------------------------------------------------------
-# Device
+# Low-memory & Device Configuration (Render 512MB RAM Optimization)
 # ---------------------------------------------------------------------------
-import torch
+os.environ.setdefault("FLAGS_enable_pir_api", "0")
+os.environ.setdefault("FLAGS_allocator_strategy", "naive")
+os.environ.setdefault("FLAGS_fraction_of_cpu_memory_to_use", "0.15")
+os.environ.setdefault("CPU_NUM", "1")
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+DEVICE = os.environ.get("DEVICE", "cpu")
 
 # ---------------------------------------------------------------------------
 # HF model registry (all PRETRAINED - nothing is trained from scratch)
@@ -90,15 +96,8 @@ STAMP_MIN_RADIUS_RATIO = 0.02  # of min(image w,h)
 PASS_INDICATOR_TEXT = ("signature", "sign", "stamp", "seal")
 
 # ---------------------------------------------------------------------------
-# PaddleOCR hardening (paddle 3.x PIR/mkldnn bug workaround)
+# PaddleOCR settings
 # ---------------------------------------------------------------------------
-os.environ.setdefault("FLAGS_enable_pir_api", "0")
-try:
-    import paddle
-
-    paddle.set_flags({"FLAGS_enable_pir_api": 0})
-except Exception:
-    pass
 
 # Mobile detection/recognition models are substantially lighter than the
 # server models while retaining support for English identity documents.

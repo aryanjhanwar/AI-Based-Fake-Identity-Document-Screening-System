@@ -12,8 +12,19 @@ import cv2
 import numpy as np
 from PIL import Image
 
+import io
+from PIL import ImageChops, ImageEnhance
 from config import STAMP_MIN_CIRCULARITY, STAMP_MIN_RADIUS_RATIO
-from modules.models import ela_residual_stats
+
+def ela_residual_stats(pil_img: Image.Image, quality: int = 90):
+    pil_img = pil_img.convert("RGB")
+    buf = io.BytesIO()
+    pil_img.save(buf, "JPEG", quality=quality)
+    buf.seek(0)
+    diff = ImageChops.difference(pil_img, Image.open(buf).convert("RGB"))
+    ela = ImageEnhance.Brightness(diff).enhance(15)
+    arr = np.asarray(ela.convert("L"), dtype=np.float32)
+    return {"ela_mean": float(arr.mean()), "ela_std": float(arr.std()), "ela_p95": float(np.percentile(arr, 95))}
 
 _INK_RANGES = {
     "red": ((0, 90, 40), (10, 255, 255)),

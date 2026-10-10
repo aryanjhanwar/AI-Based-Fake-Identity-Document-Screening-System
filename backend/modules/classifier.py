@@ -98,10 +98,7 @@ def predict(img: Image.Image) -> dict:
         fake_prob:   float 0..1 (probability document is fake)
         method:      'model' | 'ela_heuristic'
     """
-    import torch
-    from torchvision import transforms
-
-    # 1. Try Fast ML Model first
+    # 1. Try Fast ML Model first (lightweight, ~5MB RAM)
     fast_model = _load_fast_model()
     if fast_model is not None:
         features = _extract_fast_features(img)
@@ -119,6 +116,8 @@ def predict(img: Image.Image) -> dict:
     # 2. Try PyTorch Deep Learning Model
     model = _load_model()
     if model is not None:
+        import torch
+        from torchvision import transforms
         tf = transforms.Compose([
             transforms.Resize((224, 224)),
             transforms.ToTensor(),

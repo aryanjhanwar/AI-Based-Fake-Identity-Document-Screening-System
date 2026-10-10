@@ -12,11 +12,7 @@ from PIL import Image, ImageChops, ImageEnhance
 _lock = threading.Lock()
 _cache: dict = {}
 
-DEVICE = (
-    "cpu"
-    if os.environ.get("FORCE_CPU")
-    else "cuda" if __import__("torch").cuda.is_available() else "cpu"
-)
+DEVICE = os.environ.get("DEVICE", "cpu")
 
 
 def elt_image(pil_img: Image.Image, quality: int = 90, scale: int = 15) -> Image.Image:
