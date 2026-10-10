@@ -82,7 +82,7 @@ graph TB
         Render["Render / Gunicorn WSGI<br/>1 Worker / 4 Threads"]
     end
 
-    subgraph BackendCore ["Backend API (Flask - server.py)"]
+    subgraph BackendCore ["Backend API (Flask - backend/server.py)"]
         Router["Flask REST API Router"]
         UploadHandler["/api/analysis/upload Handler"]
         HealthHandler["/api/system/health Telemetry"]
@@ -90,18 +90,18 @@ graph TB
         DataStore[("In-Memory ANALYSES Store<br/>Max 200 Records + Pre-seeded")]
     end
 
-    subgraph ForensicModules ["Forensic & ML Engine (modules/)"]
-        Classifier["modules/classifier.py<br/>RandomForest HOG+HSV / EfficientNet"]
+    subgraph ForensicModules ["Forensic & ML Engine (backend/modules/)"]
+        Classifier["backend/modules/classifier.py<br/>RandomForest HOG+HSV / EfficientNet"]
         ELA["_ela_heuristic()<br/>JPEG Quality Delta 90 vs Original"]
-        Metadata["modules/metadata_analysis.py<br/>EXIF Tag & Software Inspection"]
-        Stamps["modules/stamp_forensics.py<br/>HSV Ink Masking + Circularity ELA"]
-        OCR["modules/ocr_extractor.py<br/>PaddleOCR PP-OCRv6 + RegEx"]
-        DocVal["modules/document_validation.py<br/>ICAO TD3 MRZ & Checksum Checks"]
-        Face["modules/face_verify.py<br/>Haar Cascade / MTCNN + InceptionResnetV1"]
-        RiskEngine["modules/risk.py<br/>Multi-Modal Weight Fusion"]
+        Metadata["backend/modules/metadata_analysis.py<br/>EXIF Tag & Software Inspection"]
+        Stamps["backend/modules/stamp_forensics.py<br/>HSV Ink Masking + Circularity ELA"]
+        OCR["backend/modules/ocr_extractor.py<br/>PaddleOCR PP-OCRv6 + RegEx"]
+        DocVal["backend/modules/document_validation.py<br/>ICAO TD3 MRZ & Checksum Checks"]
+        Face["backend/modules/face_verify.py<br/>Haar Cascade / MTCNN + InceptionResnetV1"]
+        RiskEngine["backend/modules/risk.py<br/>Multi-Modal Weight Fusion"]
     end
 
-    subgraph ArtifactsStorage ["Model Artifacts (artifacts/)"]
+    subgraph ArtifactsStorage ["Model Artifacts (backend/artifacts/)"]
         RFModel["fast_classifier.pkl (1.95 MB)"]
         TorchModel["id_classifier.pth (16.3 MB)"]
         BestTorch["efficientnet_b0_best.pth (48.6 MB)"]
