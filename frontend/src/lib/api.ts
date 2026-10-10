@@ -3,10 +3,11 @@ import axios from 'axios';
 // When deployed on Netlify, specify VITE_API_URL in Netlify Environment Variables:
 // e.g. VITE_API_URL = "https://verishieldai-backend.onrender.com"
 // In local development or self-hosted mode, defaults to '/api' (proxied by Vite)
-const envUrl = (import.meta.env.VITE_API_URL || '').trim();
+const rawUrl = (import.meta.env.VITE_API_URL || '').trim();
+const cleanUrl = rawUrl.replace(/\/+$/, '');
 
-export const API_BASE = envUrl
-  ? (envUrl.endsWith('/api') ? envUrl : `${envUrl.replace(/\/+$/, '')}/api`)
+export const API_BASE = cleanUrl
+  ? (cleanUrl.endsWith('/api') ? cleanUrl : `${cleanUrl}/api`)
   : '/api';
 
 export const api = axios.create({

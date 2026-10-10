@@ -18,7 +18,7 @@ import {
   AlertTriangle,
   Loader2,
 } from 'lucide-react';
-import { api } from '@/lib/api';
+import { api, API_BASE } from '@/lib/api';
 
 const DOC_TYPES = [
   { value: 'unknown',          label: 'Auto-Detect (AI)' },
@@ -122,15 +122,18 @@ export function UploadPage() {
       navigate(`/results/${response.data.id}`);
     } catch (err: any) {
       console.error(err);
-      let msg = 'Upload failed. Ensure the backend server is running on http://127.0.0.1:5000.';
+      const targetDesc = API_BASE.startsWith('http') ? API_BASE : 'the backend';
+      let msg = `Upload failed. Could not reach ${targetDesc}.`;
       if (err.response?.data?.detail) {
         msg = err.response.data.detail;
       } else if (err.response?.data?.error) {
         msg = err.response.data.error;
       } else if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
-        msg = 'Analysis request timed out. Please try again.';
+        msg = 'Analysis request timed out. If Render is waking up from sleep, wait 30 seconds and try again.';
+      } else if (err.message?.toLowerCase().includes('network error')) {
+        msg = `Network Error: Could not connect to backend (${targetDesc}). If on Render free tier, the service may be waking up from sleep (~45s), or VITE_API_URL is missing in Netlify.`;
       } else if (err.message) {
-        msg = `${err.message}. Ensure backend is running on http://127.0.0.1:5000.`;
+        msg = `${err.message} (${targetDesc})`;
       }
       setError(msg);
     } finally {

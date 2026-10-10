@@ -15,7 +15,7 @@ import {
   RefreshCw,
   Sparkles,
 } from 'lucide-react';
-import { api } from '@/lib/api';
+import { api, API_BASE } from '@/lib/api';
 
 function StatCard({
   title,
@@ -90,7 +90,9 @@ export function Dashboard() {
         <div>
           <p className="text-xl font-semibold">Could not load dashboard</p>
           <p className="text-muted-foreground text-sm mt-1">{error}</p>
-          <p className="text-muted-foreground text-xs mt-1">Ensure the backend is running on http://127.0.0.1:5000.</p>
+          <p className="text-muted-foreground text-xs mt-1">
+            Backend target: {API_BASE.startsWith('http') ? API_BASE : 'Local /api proxy'}. If using Render free tier, please allow up to 45 seconds for wake-up.
+          </p>
         </div>
         <Button variant="outline" onClick={fetchStats}>
           <RefreshCw className="mr-2 h-4 w-4" /> Retry
