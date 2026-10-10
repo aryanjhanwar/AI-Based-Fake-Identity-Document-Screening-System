@@ -7,6 +7,7 @@ import {
   Search, 
   ClipboardCheck, 
   Settings,
+  FolderUp,
   Menu,
   Bell,
   BarChart3
@@ -23,6 +24,7 @@ export function Layout() {
     { name: 'Analysis Results', href: '/results',  icon: Search },
     { name: 'Review Queue',     href: '/reviews',  icon: ClipboardCheck },
     { name: 'Analytics',        href: '/analytics',icon: BarChart3 },
+    { name: 'Upload Dataset',   href: '/dataset',   icon: FolderUp },
     { name: 'System Diagnostics', href: '/settings', icon: Settings },
   ];
 

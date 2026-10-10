@@ -1,6 +1,6 @@
 """
 OCR extraction for Indian identity documents (Aadhaar, PAN, Passport).
-Uses PaddleOCR PP-OCRv6 at full resolution for accurate field extraction.
+Uses PaddleOCR PP-OCRv5 mobile detection and recognition models for faster field extraction.
 """
 from __future__ import annotations
 import re
@@ -21,8 +21,19 @@ _BOILERPLATE = {
     "legislative", "female", "male", "gender", "unique", "identification",
     "authority", "uidai", "card", "the", "and", "for", "to", "a",
 }
+_HEADER_PHRASES = (
+    "government of india",
+    "govt of india",
+    "income tax department",
+    "permanent account number",
+    "republic of india",
+    "unique identification authority",
+    "authority of india",
+)
 
 import threading
+from config import OCR_KWARGS
+
 _ocr_lock = threading.Lock()
 _ocr_instance = None
 
@@ -39,13 +50,7 @@ def _get_ocr():
         except Exception:
             pass
         from paddleocr import PaddleOCR
-        _ocr_instance = PaddleOCR(
-            use_doc_orientation_classify=False,
-            use_doc_unwarping=False,
-            use_textline_orientation=False,
-            lang="en",
-            enable_mkldnn=False,
-        )
+        _ocr_instance = PaddleOCR(**OCR_KWARGS)
         return _ocr_instance
 
 
@@ -72,7 +77,13 @@ def _parse_lines(result) -> list[dict]:
 
 def _name_candidate(line_text: str) -> str | None:
     """Return text if it looks like a person's name, else None."""
+    if any(char.isdigit() for char in line_text):
+        return None
     t = re.sub(r"[^A-Za-z .\-']", "", line_text).strip()
+    normalized = re.sub(r"[^a-z ]", " ", t.lower())
+    normalized = re.sub(r"\s+", " ", normalized).strip()
+    if any(phrase in normalized for phrase in _HEADER_PHRASES):
+        return None
     words = [w for w in t.split() if len(w) >= 2]
     if len(words) < 1 or len(t) < 3:
         return None
@@ -120,7 +131,8 @@ def extract(img: Image.Image) -> dict:
     if max(img.size) > max_dim:
         img.thumbnail((max_dim, max_dim), Image.BILINEAR)
 
-    result = _get_ocr().predict(np.array(img))
+    # PaddleOCR 3.x accepts NumPy arrays or file paths, not PIL images.
+    result = _get_ocr().predict(np.asarray(img))
     lines  = _parse_lines(result)
     full_text = " ".join(l["text"] for l in lines)
     full_upper = full_text.upper().replace(" ", "")
@@ -142,13 +154,18 @@ def extract(img: Image.Image) -> dict:
                 expiry = m.group(0)
                 break
 
-    # Name: find the best candidate line
-    name = None
+    # Name: prefer a labeled name, otherwise choose the strongest OCR
+    # candidate. This prevents low-confidence header artifacts from winning.
+    name_candidates: list[tuple[float, str]] = []
     for l in lines:
         n = _name_candidate(l["text"])
         if n and len(n.replace(" ", "")) >= 4:
-            name = n
-            break
+            words = n.split()
+            score = float(l["conf"]) + min(len(words), 4) * 0.08
+            if re.search(r"\b(name|surname|given names?)\b", l["text"], re.I):
+                score += 0.25
+            name_candidates.append((score, n))
+    name = max(name_candidates, default=(0.0, None), key=lambda candidate: candidate[0])[1]
 
     # Father/Spouse name
     father_name = None

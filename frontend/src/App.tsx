@@ -7,6 +7,7 @@ import { ResultsList } from './pages/ResultsList'
 import { ReviewQueue } from './pages/ReviewQueue'
 import { SettingsPage } from './pages/SettingsPage'
 import { Analytics } from './pages/Analytics'
+import { DatasetUploadPage } from './pages/DatasetUploadPage'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="reviews" element={<ReviewQueue />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="analytics" element={<Analytics />} />
+          <Route path="dataset" element={<DatasetUploadPage />} />
           <Route path="*" element={
             <div className="flex flex-col items-center justify-center py-32 text-center text-muted-foreground">
               <p className="text-6xl font-bold mb-4">404</p>

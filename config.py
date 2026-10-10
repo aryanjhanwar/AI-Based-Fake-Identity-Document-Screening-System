@@ -12,6 +12,9 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 MORPH_DIR = os.path.join(DATA_DIR, "morphed")
+TRAIL_DIR = os.path.join(DATA_DIR, "audit_trails")
+os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(TRAIL_DIR, exist_ok=True)
 
 # ---------------------------------------------------------------------------
 # Device
@@ -39,7 +42,7 @@ MODELS = {
     },
     # Face detection + embeddings (VGGFace2). Not HF-hosted but pretrained.
     "face": {"backend": "facenet", "embedder": "InceptionResnetV1(vggface2)"},
-    "ocr": {"repo": "paddleocr PP-OCRv6_medium_det/rec (paddlex)", "lang": "en"},
+    "ocr": {"repo": "PaddleOCR PP-OCRv5_mobile_det/rec", "lang": "en"},
 }
 
 # ELA preprocessing constants - must match zodumair training recipe
@@ -97,11 +100,17 @@ try:
 except Exception:
     pass
 
+# Mobile detection/recognition models are substantially lighter than the
+# server models while retaining support for English identity documents.
 OCR_KWARGS = dict(
+    text_detection_model_name="PP-OCRv5_mobile_det",
+    text_recognition_model_name="PP-OCRv5_mobile_rec",
     use_doc_orientation_classify=False,
     use_doc_unwarping=False,
     use_textline_orientation=False,
     lang="en",
+    # PaddlePaddle 3.3.1 on Windows currently fails during inference with
+    # oneDNN enabled, so keep the mobile models on the stable CPU path.
     enable_mkldnn=False,
 )
 
