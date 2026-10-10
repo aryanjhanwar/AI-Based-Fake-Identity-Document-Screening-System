@@ -49,7 +49,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-app = Flask(__name__, static_folder=os.path.join(BASE_DIR, "frontend", "dist"), static_url_path="/")
+frontend_dist = os.path.join(BASE_DIR, "..", "frontend", "dist")
+if not os.path.exists(frontend_dist):
+    frontend_dist = os.path.join(BASE_DIR, "frontend", "dist")
+app = Flask(__name__, static_folder=frontend_dist if os.path.exists(frontend_dist) else None, static_url_path="/")
 CORS(app, resources={r"/*": {"origins": "*"}}, allow_headers=["*"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
 # ── In-memory analysis store ─────────────────────────────────────────────────
@@ -944,14 +947,27 @@ def api_sample_file(sample_id: str):
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve_spa(path: str):
-    dist_dir = os.path.join(BASE_DIR, "frontend", "dist")
-    full = os.path.join(dist_dir, path)
-    if path and os.path.exists(full):
-        return send_from_directory(dist_dir, path)
-    index = os.path.join(dist_dir, "index.html")
-    if os.path.exists(index):
-        return send_from_directory(dist_dir, "index.html")
-    return jsonify({"message": "API server running. Open frontend at http://localhost:3000."}), 200
+    dist_dir = os.path.join(BASE_DIR, "..", "frontend", "dist")
+    if not os.path.exists(dist_dir):
+        dist_dir = os.path.join(BASE_DIR, "frontend", "dist")
+    if os.path.exists(dist_dir):
+        full = os.path.join(dist_dir, path)
+        if path and os.path.exists(full):
+            return send_from_directory(dist_dir, path)
+        index = os.path.join(dist_dir, "index.html")
+        if os.path.exists(index):
+            return send_from_directory(dist_dir, "index.html")
+    return jsonify({
+        "status": "healthy",
+        "service": "IDShield Pro API Server",
+        "version": "IDShield-Pro-v3.2",
+        "endpoints": {
+            "health": "/api/system/health",
+            "dashboard_stats": "/api/system/dashboard/stats",
+            "screen": "/api/analysis/upload",
+            "analyses": "/api/analysis"
+        }
+    }), 200
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────

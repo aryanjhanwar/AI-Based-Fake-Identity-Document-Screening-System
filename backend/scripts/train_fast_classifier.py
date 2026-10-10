@@ -8,8 +8,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 
-DATASET_ROOT = r"d:\Projects\sih-identity-screening-main\Dataset"
-MODEL_OUTPUT_PATH = r"d:\Projects\sih-identity-screening-main\artifacts\fast_classifier.pkl"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATASET_ROOT = os.path.join(BASE_DIR, "Dataset")
+MODEL_OUTPUT_PATH = os.path.join(BASE_DIR, "artifacts", "fast_classifier.pkl")
 
 def extract_features(img_path, size=(128, 128)):
     try:

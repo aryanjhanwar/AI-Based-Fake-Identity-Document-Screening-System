@@ -39,7 +39,9 @@ def test_screen(doc_path: str, label: str):
         print(f"Error: {r.text}")
     print()
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 if __name__ == "__main__":
     test_health()
-    test_screen(r"Dataset\Aadhar\Original\0005_jpeg_jpg.rf.252590ac8ae7f0f84a08f15a164d6cb0.jpg", "Genuine Aadhaar")
-    test_screen(r"Dataset\Aadhar\Fake\0_1.jpg", "Forged Aadhaar")
+    test_screen(os.path.join(BASE_DIR, "Dataset", "Aadhar", "Original", "0005_jpeg_jpg.rf.252590ac8ae7f0f84a08f15a164d6cb0.jpg"), "Genuine Aadhaar")
+    test_screen(os.path.join(BASE_DIR, "Dataset", "Aadhar", "Fake", "0_1.jpg"), "Forged Aadhaar")

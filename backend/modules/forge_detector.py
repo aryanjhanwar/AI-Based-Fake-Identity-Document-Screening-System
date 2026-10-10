@@ -57,7 +57,8 @@ import joblib
 import cv2
 import pathlib
 
-FAST_MODEL_PATH = pathlib.Path("artifacts/fast_classifier.pkl")
+_BACKEND_DIR = pathlib.Path(__file__).resolve().parent.parent
+FAST_MODEL_PATH = _BACKEND_DIR / "artifacts" / "fast_classifier.pkl"
 _fast_model = None
 
 def _load_fast_model():

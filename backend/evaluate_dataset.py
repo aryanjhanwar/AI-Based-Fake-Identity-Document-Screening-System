@@ -9,8 +9,8 @@ warnings.filterwarnings("ignore")
 
 from modules import forge_detector
 
-# Define the root of the dataset
-DATASET_ROOT = r"d:\Projects\sih-identity-screening-main\Dataset"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATASET_ROOT = os.path.join(BASE_DIR, "Dataset")
 
 def evaluate_dataset(max_samples_per_class=5):
     print("Starting dataset evaluation...")

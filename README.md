@@ -11,7 +11,7 @@ Designed for instant detection of forged Indian identity documents (**Aadhaar, P
 ```
 sih-identity-screening-main/
 │
-├── frontend/                       # 🌐 React + TypeScript Frontend (Deploy to Netlify)
+├── frontend/                       # 🌐 React + TypeScript Frontend (Deploy independently to Netlify/Vercel)
 │   ├── public/
 │   │   └── _redirects              # Netlify client-side SPA routing rules
 │   ├── src/
@@ -21,35 +21,28 @@ sih-identity-screening-main/
 │   │   ├── App.tsx                 # Routing & Layout
 │   │   └── main.tsx
 │   ├── netlify.toml                # Netlify build configuration
-│   ├── .env.example                # Example environment variables
 │   ├── package.json
-│   └── vite.config.ts
+│   ├── vite.config.ts
+│   └── README.md
 │
-├── modules/                        # 🧠 Core Forensic & OCR Modules
-│   ├── classifier.py               # Fast Random Forest (HOG + HSV) & Error Level Analysis
-│   ├── ocr_extractor.py            # PaddleOCR PP-OCRv6 & cardholder detail extraction
-│   ├── metadata_analysis.py        # EXIF tampering & software detection (Photoshop/GIMP)
-│   ├── stamp_forensics.py          # Government seal & emblem verification
-│   └── document_validation.py      # Standard checksums & format validation
+├── backend/                        # 🧠 Python Flask & Forensic Backend (Deploy independently to Render/Docker)
+│   ├── modules/                    # Forensic & OCR Modules (classifier, OCR, ELA, metadata, stamps, etc.)
+│   ├── artifacts/                  # Offline Pretrained Model Weights (fast_classifier.pkl, id_classifier.pth)
+│   ├── Dataset/                    # Indian ID Samples (Aadhaar, PAN, Passport)
+│   ├── scripts/                    # Utility Scripts, Model Training & Benchmarks
+│   ├── uploads/                    # Temporary document processing cache
+│   ├── server.py                   # Production Flask REST API & WSGI Entrypoint
+│   ├── config.py                   # Central configurations, thresholds, and weights
+│   ├── requirements.txt            # Production Python dependencies
+│   ├── Dockerfile                  # Containerized deployment spec
+│   ├── Procfile                    # Render / Heroku WSGI process configuration
+│   ├── render.yaml                 # Render Blueprint specification
+│   ├── test_api.py                 # Automated API test suite
+│   └── README.md
 │
-├── artifacts/                      # 📦 Offline Pretrained Model Weights
-│   ├── fast_classifier.pkl         # HOG + HSV Random Forest Classifier
-│   └── id_classifier.pth           # Neural network weights
-│
-├── Dataset/                        # 📂 Indian ID Samples (Aadhaar, PAN, Passport)
-│
-├── scripts/                        # 🛠 Utility Scripts & Benchmarks
-│   ├── audit_dataset.py
-│   ├── evaluate_dataset.py
-│   └── train_fast_classifier.py
-│
-├── server.py                       # 🚀 Production Flask REST API & WSGI Entrypoint
-├── test_api.py                     # 🧪 Automated API test suite
-├── requirements.txt                # 📋 Production Python dependencies (includes Gunicorn)
-├── Procfile                        # ⚙️ Render / WSGI process configuration
-├── render.yaml                     # ☁️ Render Blueprint specification (1-click deploy)
-├── Dockerfile                      # 🐳 Containerized deployment spec
-├── netlify.toml                    # 🌐 Root Netlify build configuration
+├── render.yaml                     # ☁️ Root Render Blueprint (configures rootDir: backend)
+├── netlify.toml                    # 🌐 Root Netlify build configuration (base: frontend)
+├── SYSTEM_ARCHITECTURE.md          # 📋 Complete System Architecture & Audit Specification
 └── README.md
 ```
 

@@ -21,6 +21,10 @@ dist/
 # Uploaded documents cache
 uploads/*
 !uploads/.gitkeep
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/data/*
+!backend/data/.gitkeep
 
 # Environment & secrets
 .env

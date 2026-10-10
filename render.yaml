@@ -2,6 +2,7 @@ services:
   - type: web
     name: idshield-backend
     env: python
+    rootDir: backend
     region: oregon
     plan: standard
     buildCommand: pip install -r requirements.txt

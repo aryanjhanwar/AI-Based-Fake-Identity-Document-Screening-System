@@ -9,7 +9,8 @@ from PIL import Image, ImageChops, ImageEnhance
 import joblib
 import cv2
 
-MODEL_PATH = pathlib.Path("artifacts/id_classifier.pth")
+_BACKEND_DIR = pathlib.Path(__file__).resolve().parent.parent
+MODEL_PATH = _BACKEND_DIR / "artifacts" / "id_classifier.pth"
 
 _model = None
 _device = "cpu"
@@ -52,7 +53,7 @@ def _ela_heuristic(img: Image.Image) -> float:
     return float(score)
 
 
-FAST_MODEL_PATH = pathlib.Path("artifacts/fast_classifier.pkl")
+FAST_MODEL_PATH = _BACKEND_DIR / "artifacts" / "fast_classifier.pkl"
 _fast_model = None
 
 def _load_fast_model():
